@@ -7,10 +7,13 @@ and upload the results to Azure Monitor.  This allows for analysis from a centra
 
 ## Contents
 
-<a href="User Configured Variables.md">User Configured Variables</a>
+### <a href="User Configured Variables.md">User Configured Variables</a>
+This section covers all of the variables that you can update in the script to control what is collected, as well as the output location(s).
 
-<a href="Usage.md">Script Usage</a>
+### <a href="Usage.md">Script Usage</a>
+This section covers how to run the script, and view the local output.  It also covers how to include results from the MDE Client Analyzer.
 
-<a href="Using with Azure Monitor.md">Using with AzureMonitor</a>
 
+### <a href="Using with Azure Monitor.md">Using with AzureMonitor</a>
+This section covers requirements for sending the script results to Azure Monitor, and identifies the logs where the data is stored.
 
