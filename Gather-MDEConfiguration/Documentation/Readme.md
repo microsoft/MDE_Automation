@@ -14,6 +14,6 @@ This section covers all of the variables that you can update in the script to co
 This section covers how to run the script, and view the local output.  It also covers how to include results from the MDE Client Analyzer.
 
 
-### <a href="Using with Azure Monitor.md">Using with AzureMonitor</a>
+### <a href="Connecting to Azure Monitor.md">Connecting to Azure Monitor</a>
 This section covers requirements for sending the script results to Azure Monitor, and identifies the logs where the data is stored.
 
