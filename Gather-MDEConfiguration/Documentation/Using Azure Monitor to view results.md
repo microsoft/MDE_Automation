@@ -81,14 +81,14 @@ Below is a list of fields for each Log.  Common fields are defined above and wil
 |Test_Name|SCEPAgentVersion|Name of the Test provided by the Client Analyzer|https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/analyzer-report?view=o365-worldwide|
 |Results|Device is running an older version of System Center Endpoint Protection:|Results provided by the Client Analyzer|https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/analyzer-report?view=o365-worldwide|
 |Guidance|You should upgrade to latest available version to ensure compatbility and allow malware detections to be logged in Defender for Endpoint security portal.|Guidance provided by the Client Analyzer|https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/analyzer-report?view=o365-worldwide|
-|CAOutputDate|44851.3907986111|Last Modified date of the MDEClientAnalyzer.htm file||
+|CAOutputDate|10/17/2022  9:22:45 AM|Last Modified date of the MDEClientAnalyzer.htm file||
 
 
 
 #### MDE_SignatureShares_CL
 | Field Name | Example | Description | More Info |
 |:--------------- |:----------------------|:----------------------|:----------------------|
-|FileShare|\\Server01\SigShare$|Name of the share to used as a signature share||
+|FileShare|\\Server01\SigShare$|Name of the share to used as a signature share|https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/manage-protection-updates-microsoft-defender-antivirus?view=o365-worldwide#create-a-unc-share-for-security-intelligence-and-platform-updates|
 
 
 #### MDE_RootCerts_CL
@@ -96,9 +96,9 @@ Below is a list of fields for each Log.  Common fields are defined above and wil
 |:--------------- |:----------------------|:----------------------|:----------------------|
 |Subject|CN=Microsoft Root Certificate Authority 2010, O=Microsoft Corporation, L=Redmond, S=Washington, C=US|Subject of the Certificate||
 |Issuer|CN=Microsoft Root Certificate Authority 2010, O=Microsoft Corporation, L=Redmond, S=Washington, C=US|Issuer of the Certificate||
-|ExpirationDate|49483|Expiration Date of the Certificate||
+|ExpirationDate|6/23/2035|Expiration Date of the Certificate||
 |FriendlyName|Microsoft Root Certificate Authority 2010|Friendly name of the Certificate||
-|CertStore|TrustedRoot|Certificate store the script was ||
+|CertStore|TrustedRoot|Certificate store the certificate is located in||
 
 
 
