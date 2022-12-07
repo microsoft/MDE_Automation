@@ -26,7 +26,7 @@ This project uses GitHub Issues to track bugs and feature requests. Please searc
 issues before filing new issues to avoid duplicates.  For new issues, file your bug or 
 feature request as a new Issue.
 
-For help and questions about using this project, please submit a GitHub issue with corresponding [Issue Labels found here](https://github.com/Azure/AzOps/labels).
+For help and questions about using this project, please <a href="https://github.com/microsoft/MDE_Automation/issues">submit a GitHub issue</a> with corresponding <a href="https://github.com/microsoft/MDE_Automation/labels">Issue Labels found here</a> 
 
 ## Microsoft Support Policy  
 
