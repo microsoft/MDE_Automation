@@ -7,8 +7,10 @@ and upload the results to Azure Monitor.  This allows for analysis from a centra
 
 ## Contents
 
-<a href="Usage.md">Usage</a>
-
 <a href="User Configured Variables.md">User Configured Variables</a>
 
+<a href="Usage.md">Script Usage</a>
+
 <a href="Using with Azure Monitor.md">Using with AzureMonitor</a>
+
+
