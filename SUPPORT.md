@@ -1,14 +1,24 @@
-# TODO: The maintainer of this repo has not yet edited this file
 
-**REPO OWNER**: Do you want Customer Service & Support (CSS) support for this product/project?
-
-- **No CSS support:** Fill out this template with information about how to file issues and get help.
-- **Yes CSS support:** Fill out an intake form at [aka.ms/onboardsupport](https://aka.ms/onboardsupport). CSS will work with/help you to determine next steps.
-- **Not sure?** Fill out an intake as though the answer were "Yes". CSS will help you decide.
-
-*Then remove this first heading from this SUPPORT.MD file before publishing your repo.*
 
 # Support
+
+## Microsoft Support Policy
+
+If issues are encountered when using template and code in this repo, users will not be able to engage Microsoft support via their usual channels. 
+
+All code in the repo is provided with the following expectations:
+
+- Customers will review and be aware of the code and its potential effect for their environment.
+- Customers will test and validate code before implementing in their environment.  
+- Microsoft is not responsible for any issues/losses/damages caused by not following these expectations.
+
+For any issue encountered, please file the issue on GitHub.
+
+Project maintainers and community aim to get issues resolved in timely fashion as per community support policy of this repo.
+
+## Community Support Policy
+
+Project maintainers will aim to respond within 5 business days to get a meaningful response for any new issues.
 
 ## How to file issues and get help  
 
@@ -16,10 +26,8 @@ This project uses GitHub Issues to track bugs and feature requests. Please searc
 issues before filing new issues to avoid duplicates.  For new issues, file your bug or 
 feature request as a new Issue.
 
-For help and questions about using this project, please **REPO MAINTAINER: INSERT INSTRUCTIONS HERE 
-FOR HOW TO ENGAGE REPO OWNERS OR COMMUNITY FOR HELP. COULD BE A STACK OVERFLOW TAG OR OTHER
-CHANNEL. WHERE WILL YOU HELP PEOPLE?**.
+For help and questions about using this project, please submit a GitHub issue with corresponding [Issue Labels found here](https://github.com/Azure/AzOps/labels).
 
 ## Microsoft Support Policy  
 
-Support for this **PROJECT or PRODUCT** is limited to the resources listed above.
+Support for this project is limited to the resources listed above.
