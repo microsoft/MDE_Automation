@@ -1,6 +1,6 @@
-## Usage
-
 <- <a href="Readme.md">Back to ReadMe</a>
+
+## Usage
 
 ### General
 From PowerShell, run Gather-MDEConfiguration.ps1.
