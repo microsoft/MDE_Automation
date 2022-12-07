@@ -105,51 +105,47 @@ Below is a list of fields for each Log.  Common fields are defined above and wil
 #### MDE_Status_CL
 | Field Name | Example | Description | More Info |
 |:--------------- |:----------------------|:----------------------|:----------------------|
-|AMEngineVersion|1.1.19800.4|||
-|AMProductVersion|4.18.2210.4|||
-|AMServiceEnabled|Yes|||
-|AMServiceVersion|4.18.2210.4|||
-|AntispywareSignatureAge|0|||
-|AntispywareSignatureLastUpdated|20221110124458.000000+000|||
-|AntispywareSignatureVersion|1.379.145.0|||
-|AntivirusRunningMode|Normal|||
-|AntivirusSignatureAge|0|||
-|AntivirusSignatureLastUpdated|20221110124458.000000+000|||
-|AntivirusSignatureVersion|Running|||
-|DefenderServiceStatus|Running|||
-|DefenderSignaturesOutOfDate|FALSE|||
-|DeviceControlPoliciesLastUpdated|20221110120349.922000+000|||
-|FullScanAge|663|||
-|FullScanEndTime|20210116110724.489000+000|||
-|FullScanOverdue|FALSE|||
-|FullScanRequired|FALSE|||
-|FullScanSignatureVersion|1.329.2263.0|||
-|FullScanStartTime|20210116105021.231000+000|||
-|LastFullScanSource|User|||
-|LastQuickScanSource|System|||
-|MPCompStatWMIClassExists|TRUE|||
-|MPPrefCmdletExists|TRUE|||
-|MPPrefWMIClassExists|TRUE|||
-|MPStatCmdletExists|TRUE|||
-|NISEngineVersion|1.1.19800.4|||
-|NISSignatureAge|0|||
-|NISSignatureLastUpdated|20221110124458.000000+000|||
-|NISSignatureVersion|1.379.145.0|||
-|OnboardingState|1|||
-|QuickScanAge|0|||
-|QuickScanEndTime|20221110091713.145000+000|||
-|QuickScanOverdue|FALSE|||
-|QuickScanSignatureVersion|1.379.122.0|||
-|QuickScanStartTime|20221110085746.226000+000|||
-|SecurityHealthService|Running|||
-|SenseLocation|C:\Program Files\Windows Defender Advanced Threat Protection\|||
-|SenseServiceStatus|Running|||
-|SenseVersion|10.8210.22621.608|||
-|TamperProtectionSource|Other|||
-|TelemetryServiceStatus|Running|||
-|UTCServiceStatus|Running|Current Status of the "Connected User Experiences and Telemetry" service||
-|WindowsImageState|IMAGE_STATE_COMPLETE|||
-|WindowsSecurityCenter|Running|||
+|AMEngineVersion|1.1.19800.4|The AM Engine version (major, minor, build, revision)|https://learn.microsoft.com/en-us/previous-versions/windows/desktop/defender/msft-mpcomputerstatus|
+|AMProductVersion|4.18.2210.4|Product version (major, minor, build, revision)||
+|AMServiceEnabled|Yes|If the AM Engine is enabled||
+|AMServiceVersion|4.18.2210.4|Service version (major, minor, build, revision)||
+|AntispywareSignatureAge|0|Antispyware Signature age in days - if signatures have never been updated you will see an age of 65535 days||
+|AntispywareSignatureLastUpdated|20221110124458.000000+000|Antispyware Last updated local time. If this has never updated you will see a null value in this property||
+|AntispywareSignatureVersion|1.379.145.0|The Antispyware Signature version (major, minor, build, revision)||
+|AntivirusRunningMode|Normal|Shows the mode of Defender AV: Normal, Passive, EDR Block Mode||
+|AntivirusSignatureAge|0|Antispyware Signature age in days - if signatures have never been updated you will see an age of 65535 days||
+|AntivirusSignatureLastUpdated|20221110124458.000000+000|Antispyware Last updated local time. If this has never updated you will see a null value in this property||
+|AntivirusSignatureVersion|Running|The Antispyware Signature version (major, minor, build, revision)||
+|DefenderServiceStatus|Running|Status of Microsoft Defender Antivirus Service||
+|DefenderSignaturesOutOfDate|FALSE|Whether or not defender signatures are not current||
+|DeviceControlPoliciesLastUpdated|20221110120349.922000+000|Time that device control policies were last updated on this device||
+|FullScanAge|663|Last full scan age in days- if signatures have never been updated you will see an age of 65535 days||
+|FullScanEndTime|20210116110724.489000+000|Time of last Full Scan end - If this has never updated you will see a null value in this property||
+|FullScanStartTime|20210116105021.231000+000|Time of last Full Scan start - If this has never updated you will see a null value in this property||
+|LastFullScanSource|User|Last scan source||
+|LastQuickScanSource|System|Last scan source||
+|MPCompStatWMIClassExists|TRUE|Whether or not the device has the MSFT_MPComputerSTatus WMI Class||
+|MPPrefCmdletExists|TRUE|Whether or not the Get-MPPreference cmdlet exists||
+|MPPrefWMIClassExists|TRUE|Whether or not the device has the MSFT_MPPreference WMI Class||
+|MPStatCmdletExists|TRUE|Whether or not the Get-MPComputerStatus cmdlet exists||
+|NISEngineVersion|1.1.19800.4|NRI Engine version (major, minor, build, revision)||
+|NISSignatureAge|0|NRI Signature age in days- if signatures have never been updated you will see an age of 65535 days||
+|NISSignatureLastUpdated|20221110124458.000000+000|NRI Last updated local time - If this has never updated you will see a null value in this property||
+|NISSignatureVersion|1.379.145.0|The NRI Signature version (major, minor, build, revision)||
+|OnboardingState|1|Whether or not the device has been onboarded to ATP Portal.  1 = Onboarded, 0 = Not Onboarded||
+|QuickScanAge|0|Last quick scan age in days- if signatures have never been updated you will see an age of 65535 days.||
+|QuickScanEndTime|20221110091713.145000+000|Time of last Quick Scan end - If this has never updated you will see a null value in this property||
+|QuickScanStartTime|20221110085746.226000+000|Time of last Quick Scan start - If this has never updated you will see a null value in this property||
+|SecurityHealthService|Running|Status of Windows Security Service||
+|SenseLocation|C:\Program Files\Windows Defender Advanced Threat Protection\|Location of MSSense.exe||
+|SenseServiceStatus|Running|Status of Windows Defender Advanced Threat Protection Service||
+|SenseVersion|10.8210.22621.608|Version of MSSense.exe ||
+|TamperProtectionSource|Other|Configuration Solution that is enforcing Tamper Protection||
+|TelemetryServiceStatus|Running|Status of Connected User Experiences and Telemetry Service||
+|WindowsImageState|IMAGE_STATE_COMPLETE|Status of Os State during Setup.  IMAGE_STATE_UNDEPLOYABLE is incompatible with MDE|https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-setup-states?view=windows-11|
+|WindowsSecurityCenter|Running|Status of Security Center Service||
+
+
 
 
 
@@ -215,30 +211,32 @@ Below is a list of fields for each Log.  Common fields are defined above and wil
 #### MDE_ProcessCPU_CL
 | Field Name | Example | Description | More Info |
 |:--------------- |:----------------------|:----------------------|:----------------------|
-|AVServiceCPU||||
-|SenseServiceCPU||||
-|SecurityHealthServiceCPU||||
-|Rank1Name||||
-|Rank1CPU||||
-|Rank2Name||||
-|Rank2CPU||||
-|Rank3Name||||
-|Rank3CPU||||
-|Rank4Name||||
-|Rank4CPU||||
-|Rank5Name||||
-|Rank5CPU||||
-|Rank6Name||||
-|Rank6CPU||||
-|Rank7Name||||
-|Rank7CPU||||
-|Rank8Name||||
-|Rank8CPU||||
-|Rank9Name||||
-|Rank9CPU||||
-|Rank10Name||||
-|Rank10CPU||||
-|CaptureTime||||
+|AVServiceCPU|0|% of CPU used by Windows Defender AV Service||
+|SenseServiceCPU|0.78|% of CPU used by Windows Defender ATP service||
+|SecurityHealthServiceCPU|0|% of CPU used by Windows Security Health Service||
+|Rank1Name|sqlservr|Process Name of Top CPU Consumer||
+|Rank1CPU|10|% of CPU used by Top CPU Consumer||
+|Rank2Name|RSPortal|Process Name of 2nd highest CPU Consumer||
+|Rank2CPU|8|% of CPU used by 2nd Highest CPU Consumer||
+|Rank3Name|Powershell|Process Name of 3rd highest CPU Consumer||
+|Rank3CPU|0.39|% of CPU used by 3rd Highest CPU Consumer||
+|Rank4Name|MSSense|Process Name of 4th highest CPU Consumer||
+|Rank4CPU|0.78|% of CPU used by 4th Highest CPU Consumer||
+|Rank5Name|services|Process Name of 5th highest CPU Consumer||
+|Rank5CPU|0|% of CPU used by 5th Highest CPU Consumer||
+|Rank6Name|ReportingServicesService|Process Name of 6th highest CPU Consumer||
+|Rank6CPU|0|% of CPU used by 6th Highest CPU Consumer||
+|Rank7Name|Microsoft.PowerBI.EnterpriseGateway|Process Name of 7th highest CPU Consumer||
+|Rank7CPU|1.95|% of CPU used by 7th Highest CPU Consumer||
+|Rank8Name|lsass|Process Name of 8th highest CPU Consumer||
+|Rank8CPU|0|% of CPU used by 8th Highest CPU Consumer||
+|Rank9Name|Microsoft.ConfigurationManagement|Process Name of 9th highest CPU Consumer||
+|Rank9CPU|0|% of CPU used by 9th Highest CPU Consumer||
+|Rank10Name|Taskmgr|Process Name of 10th highest CPU Consumer||
+|Rank10CPU|0.78|% of CPU used by 10th Highest CPU Consumer||
+|CaptureTime||Time the CPU Snapshot was captured||
+
+
 
 
 
