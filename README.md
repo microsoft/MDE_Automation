@@ -1,14 +1,8 @@
-# Project
+# MDE_Automation
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
-
-As the maintainer of this project, please make a few updates:
-
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+![GitHub issues by-label](https://img.shields.io/github/issues/microsoft/MDE_Automation/enhancement?label=enhancement%20issues)
+![GitHub issues by-label](https://img.shields.io/github/issues/microsoft/MDE_Automation/bug?label=bug%20issues)
+![Total Downloads](https://img.shields.io/github/downloads/microsoft/MDE_Automation/total)
 
 ## Contributing
 
