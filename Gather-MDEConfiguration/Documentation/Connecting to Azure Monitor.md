@@ -1,5 +1,5 @@
 <- <a href="Readme.md">Back to ReadMe</a>
-## Using with Azure Monitor
+## Connecting to Azure Monitor
 
 ### Requirements
 
