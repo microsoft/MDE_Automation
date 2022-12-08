@@ -31,3 +31,21 @@ and TimeGenerated > ago(24h)
 
 #### Results
 ![KQL Query Results](<https://github.com/microsoft/MDE_Automation/blob/main/Gather-MDEConfiguration/Documentation/Images/KQLResult2.png>)
+
+### Defender Component Status for Devices
+
+
+#### KQL Query
+````
+MDE_Status_CL
+| where TimeGenerated > ago(24h)
+| distinct DeviceNameKey_s, AntivirusEnabled_b, AntivirusRunningMode_s, NetworkProtectionEnabled_b, BehaviorMonitorEnabled_b, RealTimeProtectionEnabled_b, TamperProtectionEnabled_b,
+IoavProtectionEnabled_b, TamperProtectionSource_s 
+````
+
+#### Results
+![KQL Query Results](<https://github.com/microsoft/MDE_Automation/blob/main/Gather-MDEConfiguration/Documentation/Images/KQLResult3.png>)
+
+
+
+
