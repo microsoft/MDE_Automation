@@ -1562,10 +1562,6 @@ If ($SendToAzureMonitor) {
 
                 $json = $DO | ConvertTo-Json
 
-                $JSONID = $(Get-Random -Minimum 100 -Maximum 10000).ToString()
-
-                $json | out-file -FilePath "$ScriptDir\$($LogName)_$JSONID.json"
-
                 #Write DAta to Log Analytics
                 $PostResult = Post-LogAnalyticsData -customerId $WorkspaceID -sharedKey $sharedKey -body ([System.Text.Encoding]::UTF8.GetBytes($json)) -logType $LogName
 
