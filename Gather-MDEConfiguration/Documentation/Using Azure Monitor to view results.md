@@ -137,7 +137,7 @@ Below is a list of fields for each Log.  Common fields are defined above and wil
 |QuickScanEndTime|20221110091713.145000+000|Time of last Quick Scan end - If this has never updated you will see a null value in this property||
 |QuickScanStartTime|20221110085746.226000+000|Time of last Quick Scan start - If this has never updated you will see a null value in this property||
 |SecurityHealthService|Running|Status of Windows Security Service||
-|SenseLocation|C:\Program Files\Windows Defender Advanced Threat Protection\|Location of MSSense.exe||
+|SenseLocation|C:\Program Files\Windows Defender Advanced Threat Protection\|||
 |SenseServiceStatus|Running|Status of Windows Defender Advanced Threat Protection Service||
 |SenseVersion|10.8210.22621.608|Version of MSSense.exe ||
 |TamperProtectionSource|Other|Configuration Solution that is enforcing Tamper Protection||
@@ -151,60 +151,73 @@ Below is a list of fields for each Log.  Common fields are defined above and wil
 
 
 
+
 #### MDE_Configuration_CL
 | Field Name | Example | Description | More Info |
 |:--------------- |:----------------------|:----------------------|:----------------------|
-|Fallback||||
-|NetWorkProtectionEnabled||||
-|SubmitSamplesConsent||||
-|TurnOnCloudDeliveredProtection||||
-|DisableAntivirus||||
-|DeviceDomainKey||||
-|CheckForSignatureUpdatesBeforeRunningScan||||
-|HighThreatDefaultAction||||
-|SevereThreatDefaultAction||||
-|ScanScriptsThatAreUsedInMicrosoftBrowsers||||
-|DeviceControlState||||
-|DisableCatchupFullScan||||
-|ScanType||||
-|SignatureUpdateInterval||||
-|EnableOnAccessProtection||||
-|TurnOnBehaviorMonitoring||||
-|RunDailyQuickScanAt||||
-|DeviceDomainSIDKey||||
-|DefenderCloudExtendedTimeoutInSeconds||||
-|ScanMappedNetworkDrivesDuringFullScan||||
-|MonitoringForIncomingAndOutgoingFiles||||
-|MachineAuthId||||
-|ScannNetworkFiles||||
-|LowThreatDefaultAction||||
-|IsTamperProtected||||
+|ActionToTakeOnPotentiallyUnwantedApps|Disabled|Specifies the level of detection for potentially unwanted applications. ||
+|AllowDatagramProcessingOnWinServer|FALSE|Specifies whether to disable inspection of UDP connections on Windows Server.||
+|AllowNetworkProtectionDownLevel|FALSE|Specifies whether to allow network protection to be set to Enabled or Audit Mode on Windows versions before 1709.||
+|AllowNetworkProtectionOnWinServer|FALSE|Specifies whether to allow network protection to be set to Enabled or Audit Mode for Windows Server.||
+|AllowSwitchToAsyncInspection|FALSE|Specifies whether to enable a performance optimization that allows synchronously inspected network flows to switch to async inspection once they've been checked and validated.||
+|AllowUserAccessToMicrosoftDefenderApp|FALSE|Specifies if the Defender User Interface (UI) is accessible and notifications ware allowed.||
+|CheckForSignatureUpdatesBeforeRunningScan|FALSE|ndicates whether to check for new virus and spyware definitions before Windows Defender runs a scan.||
+|CloudDeliveredProtectionLevel|Disabled|Configure how aggressive Defender Antivirus is in blocking and scanning suspicious files.||
+|ComputerID|E6CADA42-E10D-4A7C-93FB-E01ADC69C24F|Computer ID created by MAPS||
+|CPUUsageLimitPerScan|0|Specifies the maximum percentage CPU usage for a scan||
+|DayOfWeekToRunAScheduledScan|Never|Specifies the day of the week on which to perform a scheduled scan.||
+|DefenderCloudExtendedTimeoutInSeconds|0|Specifies the amount of extended time to block a suspicious file and scan it in the cloud. ||
+|DisableAntiSpyware|Not Configured|specifies whether to disable Microsoft Defender Antivirus.||
+|DisableAntivirus|Not Configured|specifies whether to disable Microsoft Defender Antivirus.||
+|DisableArchiveScanning|FALSE|Indicates whether to scan archive files, such as .zip and .cab files, for malicious and unwanted software. ||
+|DisableAutoExclusions|FALSE|Indicates whether to disable the Automatic Exclusions feature for the server.||
+|DisableBehaviorMonitoring|TRUE|Indicates whether to enable behavior monitoring.||
+|DisableBlockAtFirstSeen|FALSE|Indicates whether to enable block at first seen. ||
+|DisableCatchupFullScan|TRUE|Indicates whether Windows Defender runs catch-up scans for scheduled full scans.||
+|DisableCatchupQuickScan|TRUE|Indicates whether Windows Defender runs catch-up scans for scheduled quick scans. ||
+|DisableCpuThrottleOnIdleScans|TRUE|Indicates whether the CPU will be throttled for scheduled scans while the device is idle. ||
+|DisableDatagramProcessing|FALSE|Specifies whether to disable inspection of UDP connections.||
+|DisableDnsOverTcpParsing|FALSE|Specifies whether to disable inspection of DNS traffic that occurs over a TCP channel.||
+|DisableDnsParsing|FALSE|Specifies whether to disable inspection of DNS traffic that occurs over a UDP channel||
+|DisableEmailScanning|TRUE|Indicates whether Windows Defender parses the mailbox and mail files, according to their specific format, in order to analyze mail bodies and attachments.||
+|DisableFtpParsing|FALSE|Specifies whether to disable FTP Parsing for Network Protection.||
+|DisableGradualRelease|FALSE|Specifies whether to disable gradual rollout of monthly and daily Windows Defender updates.||
+|DisableHttpParsing|FALSE|Specifies whether disable inspection of HTTP traffic. ||
+|DisableInboundConnectionFiltering|FALSE|Specifies whether to inspect only outbound connections. ||
+|DisableNetworkProtectionPerfTelemetry|FALSE|disables the gathering and send of performance telemetry from Network Protection.||
+|DisableRdpParsing|FALSE|This setting controls whether to parse RDP traffic to look for malicious attacks using the RDP protocol.||
+|DisableRealtimeMonitoring|TRUE|Indicates whether to use real-time protection.||
+|DisableRemovableDriveScanning|TRUE|Indicates whether to scan for malicious and unwanted software in removable drives, such as flash drives, during a full scan. ||
+|DisableRestorePoint|TRUE|Indicates whether to disable scanning of restore points. ||
+|DisableScanningDownloadedFilesAndAttachments|TRUE|Indicates whether to disable scans all downloaded files and attachments. ||
+|DisableScanningMappedNetworkDrivesForFullScan|TRUE|Indicates whether to scan mapped network drives. ||
+|DisableScanningNetworkFiles|TRUE|Indicates whether to scan for network files. ||
+|DisableScriptScanning|TRUE|Specifies whether to disable the scanning of scripts during malware scans.||
+|DisableSmtpParsing|FALSE|Specifies whether to disable inspection of SMTP traffic. ||
+|DisableSshParsing|FALSE|Specifies whether to disable inspection of SSH traffic. ||
+|DisableTlsParsing|FALSE|Specifies whether to disable inspection of TLS traffic. ||
 |EDRGroupID||||
-|DisableCatchupQuickScan||||
-|RecordGUID||||
-|CPUUsageLimitPerScan||||
-|RunDailyScanAt||||
-|ScanAllDownloadedFilesAndAttachments||||
-|ScanArchiveFiles||||
-|DisableAntiSpyware||||
-|TurnOnRealTimeProtection||||
-|AntispywareEnabled||||
-|ActionToTakeOnPotentiallyUnwantedApps||||
-|ModerateThreatDefaultAction||||
-|OrgId||||
-|CloudDeliveredProtectionLevel||||
-|DeviceNameKey||||
-|AllowUserAccessToMicrosoftDefenderApp||||
-|AntivirusEnabled||||
-|SenseID||||
-|TurnOnNetworkProtection||||
-|DayOfWeekToRunAScheduledScan||||
-|ComputerID||||
-|UseLowPriorityForScheduledScans||||
-|ScanEmails||||
-|NumberofDaysToKeepQuarantinedMalware||||
-|WLIDServiceStartType||||
-|DeviceControlDefaultEnforcement||||
+|EnableDnsSinkhole|TRUE|Specifies whether to examine DNS traffic to detect and sinkhole DNS exfiltration attempts and other DNS based malicious attacks. ||
+|EnableFileHashComputation|FALSE|Specifies whether to enable file hash computation. ||
+|EnableFullScanOnBatteryPower|FALSE|Specifies whether Windows Defender does a full scan while on battery power.||
+|EnableLowCpuPriority|FALSE|Specifies whether Windows Defender uses low CPU priority for scheduled scans.||
+|EnableNetworkProtection|0|Specifies how the network protection service handles web-based malicious threats, including phishing and malware. ||
+|Fallback|InternalDefinitionUpdateServer|MicrosoftUpdateServer|MMPC|Specifies the order in which to contact different definition update sources.||
+|HighThreatDefaultAction|Quarantine|Specifies which automatic remediation action to take for a high level threat.||
+|LowThreatDefaultAction|Quarantine|Specifies which automatic remediation action to take for a low level threat.||
+|ModerateThreatDefaultAction|Quarantine|Specifies which automatic remediation action to take for a moderate level threat.||
+|NumberofDaysToKeepQuarantinedMalware|15|Specifies the number of days to keep items in the scan history folder. After this time, Windows Defender removes the items. ||
+|OrgId|33a4a71f-65f1-4861-a775-50d2e8bfc816|OrgID value from HKLM:\SOFTWARE\\Microsoft\\Windows Advanced Threat Protection\Status||
+|RealTimeScanDirection|Incoming and Outgoing|Specifies scanning configuration for incoming and outgoing files on NTFS volumes. ||
+|RunDailyQuickScanAt|0.5|Specifies the time of day, as the number of minutes after midnight, to perform a scheduled quick scan. The time refers to the local time on the computer. ||
+|RunDailyScanAt|0|Specifies the time of day to run a scheduled scan. The time refers to the local time on the computer. ||
+|ScanOnlyIfIdleEnabled|Other|Indicates whether to start scheduled scans only when the computer is not in use.||
+|ScanType|Quick Scan|Specifies the type of scan to use during a scheduled scan||
+|SenseID|b65ea20089369dd6be4e42c55c9fa8f5289c7ed1|Unique Identifier of device in ATP||
+|SevereThreatDefaultAction|Quarantine|Specifies which automatic remediation action to take for a severe level threat.||
+|SignatureUpdateInterval|1|Specify the interval from zero to 24 (in hours) that is used to check for signatures||
+|SubmitSamplesConsent|Send Safe Samples Automatically|Specifies how Windows Defender checks for user consent for certain samples.||
+|TurnOnCloudDeliveredProtection|No|Specifies whether Defender on Windows 10/11 desktop devices sends information to Microsoft about any problems it finds. ||
 
 
 
