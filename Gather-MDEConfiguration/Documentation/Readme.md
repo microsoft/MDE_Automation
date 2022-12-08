@@ -17,5 +17,5 @@ This section covers how to run the script, and view the local output.  It also c
 ### <a href="Connecting to Azure Monitor.md">Connecting to Azure Monitor</a>
 This section covers requirements for sending the script results to Azure Monitor.
 
-### <a href="Using Azure Monitor to view results.md">Using Azure Monitor to view results</a>
+### <a href="About Azure Monitor Data Structure.md">About Azure Monitor Data Structure</a>
 This section covers how the data is structured in Azure Monitor, as well as what data is stored.
