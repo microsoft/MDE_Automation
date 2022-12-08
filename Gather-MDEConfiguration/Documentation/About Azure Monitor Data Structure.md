@@ -1,6 +1,6 @@
 <- <a href="Readme.md">Back to ReadMe</a>
 
-## Using Azure Monitor to view results
+## About Azure Monitor Data Structure
 
 ### Azure Monitor Log Mappings
 
