@@ -21,13 +21,13 @@ MDE_CAResults_CL
 ### Count of Devices returning issues from MDE Client Analyzer
 
 #### KQL Query
-''''
+````
 MDE_CAResults_CL 
 | where Severity_s <> "Informational" 
 and TimeGenerated > ago(24h)
 | summarize dcount(DeviceNameKey_s) by id_s, Severity_s, Test_Name_s, Results_s
 | project-rename id_s, AffectedDevices=dcount_DeviceNameKey_s, Severity_s, Test_Name_s, Results_s
-''''
+````
 
 #### Results
 ![KQL Query Results](<https://github.com/microsoft/MDE_Automation/blob/main/Gather-MDEConfiguration/Documentation/Images/KQLResult2.png>)
