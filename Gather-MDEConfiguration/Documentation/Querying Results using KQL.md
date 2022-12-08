@@ -1,0 +1,1 @@
+## Querying Results using KQL.
