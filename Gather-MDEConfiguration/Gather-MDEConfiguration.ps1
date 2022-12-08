@@ -1,4 +1,5 @@
 
+
 ##############################################################
 #region Functions
 ##############################################################
@@ -416,9 +417,9 @@ param(
         $Output = @{}
         $ServiceDetails = (Get-Service -Name $ServiceName)
         $Output.ServiceName = $ServiceDetails.Name
-        $Output.Status = $ServiceDetails.Status
+        [string]$Output.Status = $ServiceDetails.Status
         $Output.DisplayName = $ServiceDetails.DisplayName
-        $Output.StartType = $ServiceDetails.StartType
+        [string]$Output.StartType = $ServiceDetails.StartType
     
     }
     else { #Service is not present
@@ -677,14 +678,14 @@ $IncludedSections += "Status" #Reports on the current status of MDE components o
 $IncludedSections += "AVExclusions" #Reports on the AV exclusions this device is configured to use
 $IncludedSections += "SignatureShares" #Lists Signature shares (if any) that are defined
 $IncludedSections += "ProcessCPU" #Gathers a snapshot of key MDE Process CPU usage, along with the top 10 processes at execution time
-#$IncludedSections += "InstalledSoftware" #Reports a list of software installed on this device
+$IncludedSections += "InstalledSoftware" #Reports a list of software installed on this device
 $IncludedSections += "CAResults" #Checks for the output of the MDE Client Analyzer and if found, imports the results
 $IncludedSections += "RootCerts" #Reports on the certificates in the Computers Trusted Root Store
 
 
 $MDECAOutputFile = "$($ScriptDir)\MDEClientAnalyzerResult\SystemInfoLogs\MDEClientAnalyzer.xml" #File to read for the MDE Client Analyzer Results, if present
-$WorkspaceID = '628b2f33-4bd2-42ab-b63d-1623942fb505' #Log Analytics Workspace ID
-$SharedKey = 'AWK+wrdHgSv9JFo2jI310735j+2Nmj1u3vS+p3QyPDGI7RujvsYChyH4VU5c7X1aJbB1Q9y82+kvELPKvYB1aw==' #Log Analytics Primary Key
+$WorkspaceID = '' #Log Analytics Workspace ID
+$SharedKey = '' #Log Analytics Primary Key
 #endregion User Configured Variables
 
 #region Static Variables
@@ -920,7 +921,6 @@ else {
         $FinalOutputs.Status.WindowsImageState = Get-RegistryValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\State" -Name "ImageState"
 
 
-
         #Get Versions of Services, Engines
         ##################################################################################
         $AMProductVersion = $MPStat.AMProductVersion
@@ -943,8 +943,6 @@ else {
 
         $FinalOutputs.Status.SenseServiceVersion = $SenseVersion
         $FinalOutputs.Status.SenseServiceLocation = $SenseLocation
-
-
 
 
         #Get Signature Versions, Age
@@ -990,37 +988,37 @@ else {
         #Get Status of Windows Services
         ##################################################################################
         #Microsoft Defender Antivirus Service - WinDefend
-        $WinDefendSvc = Get-Service -Name WinDefend -ErrorAction SilentlyContinue
+        $WinDefendSvc = Get-ServiceStatus -ServiceName WinDefend -ErrorAction SilentlyContinue
         $FinalOutputs.Status.DefenderServiceStatus = $WinDefendSvc.Status
         $FinalOutputs.Status.DefenderServiceStartType = $WinDefendSvc.StartType
 
         #Connected User Experiences and Telemetry- DiagTrack
-        $DiagTrackSvc = Get-Service -Name DiagTrack -ErrorAction SilentlyContinue
+        $DiagTrackSvc = Get-ServiceStatus -ServiceName DiagTrack -ErrorAction SilentlyContinue
         $FinalOutputs.Status.TelemetryServiceStatus = $DiagTrackSvc.Status
         $FinalOutputs.Status.TelemetryServiceStartType = $DiagTrackSvc.StartType
 
         #Windows Defender Advanced Threat Protection Service - Sense
-        $SenseSvc = Get-Service -Name Sense -ErrorAction SilentlyContinue
+        $SenseSvc = Get-ServiceStatus -ServiceName Sense -ErrorAction SilentlyContinue
         $FinalOutputs.Status.SenseServiceStatus = $SenseSvc.Status
         $FinalOutputs.Status.SenseServiceStartType = $SenseSvc.StartType
 
         #Windows Security Service - SecurityHealthService
-        $SecurityHealthSvc = Get-Service -Name SecurityHealthService -ErrorAction SilentlyContinue
+        $SecurityHealthSvc = Get-ServiceStatus -ServiceName SecurityHealthService -ErrorAction SilentlyContinue
         $FinalOutputs.Status.SecurityHealthServiceStatus = $SecurityHealthSvc.Status
         $FinalOutputs.Status.SecurityHealthServiceStartType = $SecurityHealthSvc.StartType
 
         #Security Center - wscsvc
-        $wscsvc = Get-Service -Name wscsvc -ErrorAction SilentlyContinue
+        $wscsvc = Get-ServiceStatus -ServiceName wscsvc -ErrorAction SilentlyContinue
         $FinalOutputs.Status.SecurityCenterServiceStatus = $wscsvc.Status
         $FinalOutputs.Status.SecurityCenterServiceStartType = $wscsvc.StartType
 
         #Microsoft Account Sign-in Assistant - wlidsvc
-        $wlidsvc = Get-Service -Name wlidsvc -ErrorAction SilentlyContinue
+        $wlidsvc = Get-ServiceStatus -ServiceName wlidsvc -ErrorAction SilentlyContinue
         $FinalOutputs.Status.MSAccountSignInServiceStatus = $wlidsvc.Status
         $FinalOutputs.Status.MSAccountSignInServiceStartType = $wlidsvc.StartType
 
         #Windows Push Notifications System Service - wpnservice
-        $wpnservice = Get-Service -Name wpnservice -ErrorAction SilentlyContinue
+        $wpnservice = Get-ServiceStatus -ServiceName wpnservice -ErrorAction SilentlyContinue
         $FinalOutputs.Status.WinPushNotifyServiceStatus = $wpnservice.Status
         $FinalOutputs.Status.WinPushNotifyServiceStartType = $wpnservice.StartType
 
@@ -1029,8 +1027,12 @@ else {
         ##################################################################################
         $FinalOutputs.Status.AntivirusRunningMode = $MPStat.AMRunningMode
     
-        $FinalOutputs.Status.OnboardingState = Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\\Microsoft\\Windows Advanced Threat Protection\Status" -Name OnboardingState
-
+        
+        $OState = Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\\Microsoft\\Windows Advanced Threat Protection\Status" -Name OnboardingState
+        If ($OState -eq 1) {$FinalOutputs.Status.OnboardingState = "Onboarded"}
+        else {$FinalOutputs.Status.OnboardingState = "Not Onboarded"}
+        
+        
         $FinalOutputs.Status.TamperProtectionEnabled = $MPStat.IsTamperProtected
         $FinalOutputs.Status.TamperProtectionSource =  $MPStat.TamperProtectionSource
 
@@ -1052,7 +1054,12 @@ else {
         $FinalOutputs.Status.QuickScanEndTime = $MPStat.QuickScanEndTime
         $FinalOutputs.Status.QuickScanOverdue = $MPStat.QuickScanOverdue
         $FinalOutputs.Status.QuickScanSignatureVersion = $MPStat.QuickScanSignatureVersion
-        $FinalOutputs.Status.LastQuickScanSource = $MPStat.LastQuickScanSource
+        
+        
+        Switch ($MPStat.LastQuickScanSource) { 0 {$V = "Unknown"} 1 {$V = "User"}  2 {$V = "System"}   3 {$V = "Real-time"}   4 {$V = "IOAV"}   $Null{$V = "Not Configured"} Default {$V = "Other"}}
+        
+        
+        $FinalOutputs.Status.LastQuickScanSource = $V
 
         #FullScan
         $FinalOutputs.Status.FullScanAge = $MPStat.FullScanAge
@@ -1061,7 +1068,9 @@ else {
         $FinalOutputs.Status.FullScanOverdue = $MPStat.FullScanOverdue
         $FinalOutputs.Status.FullScanRequired = $MPStat.FullScanRequired
         $FinalOutputs.Status.FullScanSignatureVersion = $MPStat.FullScanSignatureVersion
-        $FinalOutputs.Status.LastFullScanSource = $MPStat.LastFullScanSource
+
+        Switch ($MPStat.LastFullScanSource) { 0 {$V = "Unknown"} 1 {$V = "User"}  2 {$V = "System"}   3 {$V = "Real-time"}   4 {$V = "IOAV"}   $Null{$V = "Not Configured"} Default {$V = "Other"}}
+        $FinalOutputs.Status.LastFullScanSource = $V
 
     }
 #endregion Additional MDE Status Data  
@@ -1160,7 +1169,11 @@ else {
         $FinalOutputs.Configuration.EnableFileHashComputation = $MPP.EnableFileHashComputation
         $FinalOutputs.Configuration.EnableFullScanOnBatteryPower = $MPP.EnableFullScanOnBatteryPower
         $FinalOutputs.Configuration.EnableLowCpuPriority= $MPP.EnableLowCpuPriority
-        $FinalOutputs.Configuration.EnableNetworkProtection= $MPP.EnableNetworkProtection
+
+        $V = ""
+        Switch ($MPP.EnableNetworkProtection) { 0 {$V = "Disabled"} 1 {$V = "Enabled"}  2 {$V = "Audit Mode"}  $Null{$V = "Not Configured"} Default {$V = "Other"}}
+
+        $FinalOutputs.Configuration.EnableNetworkProtection= $V
         $FinalOutputs.Configuration.AllowDatagramProcessingOnWinServer= $MPP.AllowDatagramProcessingOnWinServer
         $FinalOutputs.Configuration.AllowNetworkProtectionDownLevel= $MPP.AllowNetworkProtectionDownLevel
         $FinalOutputs.Configuration.AllowNetworkProtectionOnWinServer= $MPP.AllowNetworkProtectionOnWinServer
@@ -1542,12 +1555,16 @@ If ($SendToAzureMonitor) {
             $SectionRecordSuccess = 0
             $SectionRecordError = 0
 
-            $FinalOutputs.$Key | foreach-object {
-                $DO = $_
+            $FinalOutputs.$Key| foreach-object {
+                $DO = $_ 
                 #$DO
                 $LogName = "MDE_$Key"
 
                 $json = $DO | ConvertTo-Json
+
+                $JSONID = $(Get-Random -Minimum 100 -Maximum 10000).ToString()
+
+                $json | out-file -FilePath "$ScriptDir\$($LogName)_$JSONID.json"
 
                 #Write DAta to Log Analytics
                 $PostResult = Post-LogAnalyticsData -customerId $WorkspaceID -sharedKey $sharedKey -body ([System.Text.Encoding]::UTF8.GetBytes($json)) -logType $LogName
@@ -1586,4 +1603,3 @@ If ($SendToAzureMonitor) {
 
 #endregion Output script results
 
-Exit-Script -ExitCode 0
