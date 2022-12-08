@@ -14,4 +14,4 @@ MDE_CAResults_CL
 ````
 
 #### Results
-![Inline image alt text](<https://user-images.githubusercontent.com/30203863/71215319-517d2a80-22af-11ea-9ca8-206a2162c1cb.png> "Optional image title")
+![Inline image alt text](<https://github.com/microsoft/MDE_Automation/blob/main/Gather-MDEConfiguration/Documentation/Images/KQLResult1.png> "Optional image title")
