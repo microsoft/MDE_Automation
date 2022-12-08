@@ -19,3 +19,8 @@ This section covers requirements for sending the script results to Azure Monitor
 
 ### <a href="About Azure Monitor Data Structure.md">About Azure Monitor Data Structure</a>
 This section covers how the data is structured in Azure Monitor, as well as what data is stored.
+
+
+### <a href="Querying Results using KQL.md">Querying Results using KQL</a>
+This section provides some sample KQL queries that can be used to view results from Azure Monitor.
+
