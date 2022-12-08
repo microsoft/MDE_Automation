@@ -1,5 +1,4 @@
 
-
 ##############################################################
 #region Functions
 ##############################################################
@@ -701,7 +700,6 @@ $ScriptOutputs = @{}
 $ResultObjects = @()
 #endregion Static Variables
 
-
 #region Prep and Initialize
 
 
@@ -1088,9 +1086,12 @@ else {
         $FinalOutputs.Configuration.SenseID= Get-RegistryValue -Path "HKLM:\SOFTWARE\Microsoft\Windows Advanced Threat Protection" -Name "SenseId"
         $FinalOutputs.Configuration.OrgId = Get-RegistryValue -Path "HKLM:\SOFTWARE\\Microsoft\\Windows Advanced Threat Protection\Status" -Name "OrgID" 
         $FinalOutputs.Configuration.EDRGroupID = Get-RegistryValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Advanced Threat Protection" -Name "GroupIDs"
-        $FinalOutputs.Configuration.ComputerID = $MPP.ComputerID
-        $FinalOutputs.Configuration.MachineAuthId = Get-RegistryValue -Path "HKLM:\SOFTWARE\\Microsoft\Windows Advanced Threat Protection" -Name "C9D38BBB-E9DD-4B27-8E6F-7DE97E68DAB9"
-
+        If ($MPP.ComputerID.length -gt 0) {
+            $FinalOutputs.Configuration.ComputerID = $MPP.ComputerID
+        }
+        else {
+            $FinalOutputs.Configuration.ComputerID = Get-RegistryValue -Path "HKLM:\SOFTWARE\\Microsoft\Windows Advanced Threat Protection" -Name "C9D38BBB-E9DD-4B27-8E6F-7DE97E68DAB9"
+        }
         #Check for MDE Group Policies (https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/troubleshoot-microsoft-defender-antivirus-when-migrating?view=o365-worldwide#group-policy-results)
         ##################################################################################
         If (Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender") {
@@ -1145,7 +1146,6 @@ else {
         $FinalOutputs.Configuration.DisableInboundConnectionFiltering = $MPP.DisableInboundConnectionFiltering
         $FinalOutputs.Configuration.DisableScanningDownloadedFilesAndAttachments = $MPP.DisableIOAVProtection
         $FinalOutputs.Configuration.DisableNetworkProtectionPerfTelemetry = $MPP.DisableNetworkProtectionPerfTelemetry
-        $FinalOutputs.Configuration.DisablePrivacyMode = $MPP.DisablePrivacyMode
         $FinalOutputs.Configuration.DisableRdpParsing = $MPP.DisableRdpParsing
         $FinalOutputs.Configuration.DisableRealtimeMonitoring = $MPP.DisableRealtimeMonitoring
         $FinalOutputs.Configuration.DisableRemovableDriveScanning = $MPP.DisableRemovableDriveScanning
@@ -1155,7 +1155,6 @@ else {
         $FinalOutputs.Configuration.DisableScriptScanning = $MPP.DisableScriptScanning
         $FinalOutputs.Configuration.DisableSmtpParsing = $MPP.DisableSmtpParsing
         $FinalOutputs.Configuration.DisableSshParsing = $MPP.DisableSshParsing
-        $FinalOutputs.Configuration.DisableTDTFeature = $MPP.DisableTDTFeature
         $FinalOutputs.Configuration.DisableTlsParsing = $MPP.DisableTlsParsing
         $FinalOutputs.Configuration.EnableDnsSinkhole = $MPP.EnableDnsSinkhole
         $FinalOutputs.Configuration.EnableFileHashComputation = $MPP.EnableFileHashComputation
