@@ -1,4 +1,4 @@
-﻿
+
 
 ##############################################################
 #region Functions
@@ -209,9 +209,15 @@ Function Post-LogAnalyticsData($customerId, $sharedKey, $body, $logType){
         "time-generated-field" = $TimeStampField;
     }
 
-    $response = Invoke-WebRequest -Uri $uri -Method $method -ContentType $contentType -Headers $headers -Body $body -UseBasicParsing
-    return $response.StatusCode
+    
+    If ($customerid -eq "") {
+        return 600
+    }
+    else {
 
+        $response = Invoke-WebRequest -Uri $uri -Method $method -ContentType $contentType -Headers $headers -Body $body -UseBasicParsing
+        return $response.StatusCode
+    }
 }
 
 Function Convert-PSObjectArraytoJSON {
@@ -684,13 +690,13 @@ $IncludedSections += "RootCerts" #Reports on the certificates in the Computers T
 
 
 $MDECAOutputFile = "$($ScriptDir)\MDEClientAnalyzerResult\SystemInfoLogs\MDEClientAnalyzer.xml" #File to read for the MDE Client Analyzer Results, if present
-$WorkspaceID = '7602087e-0c9b-4fb3-8d44-a6e38b12e7aa' #Log Analytics Workspace ID
-$SharedKey = 'HkPQWyHDe4DBH6jMuv0saTdS7qqZpBqqo4nZuvNOOlOR+03f0kQ5ws7h24NCFfQZ2qtoGdaVhH+f7emMAW7sXg==' #Log Analytics Primary Key
+$WorkspaceID = '' #Log Analytics Workspace ID
+$SharedKey = '' #Log Analytics Primary Key
 #endregion User Configured Variables
 
 #region Static Variables
 #These variables should not be modified
-$GatherScriptVer = "4.0.0" #Version of this script
+$GatherScriptVer = "4.1.0" #Version of this script
 $RecordGUID = $(New-Guid).GUID #Guid unique to this device and script run uploaded with every record
 $TLS12Required = $true #If connecting to Log Analytics, this must be set to $true
 $CurrentTextColor = [System.Console]::ForegroundColor
@@ -699,6 +705,10 @@ $WarningTextColor = "Yellow"
 $FinalOutputs = @{}
 $ScriptOutputs = @{}
 $ResultObjects = @()
+$ScriptRegPath = "HKLM:\Software\Microsoft\GatherScripts"
+$ScriptKeyName = "Gather-MDEConfiguration"
+$DeviceGUIDPath = "$ScriptRegPath\$ScriptKeyName"
+
 #endregion Static Variables
 
 #region Prep and Initialize
@@ -733,6 +743,10 @@ $Architecture = $OSInfo.OSArchitecture
 
 If ($DSRegInfo.Device_State.DomainJoined.Length -gt 0) {
     $DeviceDomainName = $DSRegInfo.Device_State.DomainName
+    If ($DeviceDomainName.length -eq 0) {
+        $DeviceDomainName = $(Get-WMIObject -Namespace root\cimv2 -Class Win32_ComputerSystem).Domain
+    }
+
 }
 else {
     $DeviceDomainName = $(Get-WMIObject -Namespace root\cimv2 -Class Win32_ComputerSystem).Domain
@@ -747,6 +761,46 @@ else {
     $DeviceDomainSID = ""
     $DomainJoined = "NO"
 }
+
+
+#Check if Device has a unique persistent ID for the results of this script
+$CurrentGuid = Get-RegistryValue -Path $DeviceGUIDPath -Name "DeviceUID"
+
+#If a unique persistent ID does not exist, create one and save it to the registry for future use
+If ($CurrentGuid -eq "") {
+
+    "Device does not have a current persistent script guid stored at $ScriptRegPath\$ScriptKeyName" | Add-LogEntry -LogName $LogFile
+
+    #Check if Registry key is present
+    $ScriptRegKey = Test-Path -Path $DeviceGUIDPath
+    If ($ScriptRegKey -eq $false) {
+        $Error.Clear()
+        New-Item -Path $ScriptRegPath -Name $ScriptKeyName -Force
+        If ($Error.count -ge 1) {
+            "Error: Unable to create registry key: $ScriptKeyName at $ScriptRegPath" | Add-LogEntry -LogName $LogFile
+        }
+        else {
+            "Created registry key: $ScriptKeyName at $ScriptRegPath to store device persistent script guid." | Add-LogEntry -LogName $LogFile
+        }
+
+    }
+
+    $CurrentGuid = New-Guid
+
+    New-ItemProperty -Path $DeviceGUIDPath -Name "DeviceUID" -Value $CurrentGuid
+
+    "Created new persistent script guid ($CurrentGuid) and saved to $ScriptRegPath\$ScriptKeyName" | Add-LogEntry -LogName $LogFile
+
+}
+else {
+
+     "Current persistent script guid ($CurrentGuid) found at $ScriptRegPath\$ScriptKeyName" | Add-LogEntry -LogName $LogFile
+
+}
+
+   
+
+
 
 
 "DeviceName: $DeviceName " | Add-LogEntry -LogName $LogFile
@@ -769,12 +823,7 @@ else {
     $FinalOutputs.DeviceInfo.OSVersion = $(Get-WMIObject -Class Win32_OperatingSystem).Version       
     $FinalOutputs.DeviceInfo.OSName =  $(Get-WMIObject -Class Win32_OperatingSystem).Caption         
     $FinalOutputs.DeviceInfo.WorkplaceJoined = $DSRegInfo.User_State.WorkplaceJoined     
-
-
-
-
-
-
+    $FinalOutputs.DeviceInfo.DeviceUID = $CurrentGuid
 
 #endregion Get Device ID Info
 
@@ -833,6 +882,7 @@ else {
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "Results" -Value $Event.checkresult
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "Guidance" -Value $Event.guidance
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "CAOutputDate" -Value $CAOutputDate
+            $MDEResultSection | Add-Member -MemberType NoteProperty -Name "DeviceUID" -Value $CurrentGuid
 
             $FinalOutputs.CAResults += $MDEResultSection
 
@@ -858,6 +908,8 @@ else {
         $FinalOutputs.Status.DeviceDomainSIDKey = $DeviceDomainSID 
         $FinalOutputs.Status.DeviceNameKey = $DeviceName
         $FinalOutputs.Status.GatherScriptVersion = $GatherScriptVer
+        $FinalOutputs.Status.DeviceUID = $CurrentGuid
+
 
 
 
@@ -1088,6 +1140,7 @@ else {
         $FinalOutputs.Configuration.DeviceDomainSIDKey = $DeviceDomainSID 
         $FinalOutputs.Configuration.DeviceNameKey = $DeviceName
         $FinalOutputs.Configuration.GatherScriptVersion = $GatherScriptVer
+        $FinalOutputs.Configuration.DeviceUID = $CurrentGuid
 
 
         #Get MDE Specific Identifying Info
@@ -1307,6 +1360,7 @@ else {
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DeviceDomainKey" -Value $DeviceDomainName
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DeviceDomainSIDKey" -Value $DeviceDomainSID
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DeviceNameKey" -Value $DeviceName
+            $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DeviceUID" -Value $CurrentGuid
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "GatherScriptVersion" -Value $GatherScriptVer
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DefinedExclusion" -Value $_
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "ExclusionType" -Value "Extension"
@@ -1340,6 +1394,7 @@ else {
             $AntivirusSignatureFileShare | Add-Member -MemberType NoteProperty -Name "DeviceNameKey" -Value $DeviceName
             $AntivirusSignatureFileShare | Add-Member -MemberType NoteProperty -Name "DeviceDomainKey" -Value $DeviceDomainName
             $AntivirusSignatureFileShare | Add-Member -MemberType NoteProperty -Name "DeviceDomainSIDKey" -Value $DeviceDomainSID
+            $AntivirusSignatureFileShare | Add-Member -MemberType NoteProperty -Name "DeviceUID" -Value $CurrentGuid
             $AntivirusSignatureFileShare | Add-Member -MemberType NoteProperty -Name "GatherScriptVersion" -Value $GatherScriptVer  
             $AntivirusSignatureFileShare | Add-Member -MemberType NoteProperty -Name "RecordGUID" -Value $RecordGUID
             $AntivirusSignatureFileShare | Add-Member -MemberType NoteProperty -Name "FileShare" -Value $_
@@ -1363,6 +1418,7 @@ else {
         $ProcessCPUData | Add-Member -MemberType NoteProperty -Name "DeviceDomainKey" -Value $DeviceDomainName
         $ProcessCPUData | Add-Member -MemberType NoteProperty -Name "DeviceDomainSIDKey" -Value $DeviceDomainSID
         $ProcessCPUData | Add-Member -MemberType NoteProperty -Name "DeviceNameKey" -Value $env:COMPUTERNAME
+        $ProcessCPUData | Add-Member -MemberType NoteProperty -Name "DeviceUID" -Value $CurrentGuid
         $ProcessCPUData | Add-Member -MemberType NoteProperty -Name "RecordGUID" -Value $RecordGUID
         $ProcessCPUData | Add-Member -MemberType NoteProperty -Name "GatherScriptVersion" -Value $GatherScriptVer
         $ProcessCPUData | Add-Member -MemberType NoteProperty -Name "AVServiceCPU" -Value $AVServiceCPU
@@ -1412,6 +1468,7 @@ else {
             $InstalledSoftware = New-OBject -TypeName PSOBject 
             $InstalledSoftware | Add-Member -MemberType NoteProperty -Name "DeviceDomainKey" -Value $DeviceDomainName
             $InstalledSoftware | Add-Member -MemberType NoteProperty -Name "DeviceDomainSIDKey" -Value $DeviceDomainSID
+            $InstalledSoftware | Add-Member -MemberType NoteProperty -Name "DeviceUID" -Value $CurrentGuid
             $InstalledSoftware | Add-Member -MemberType NoteProperty -Name "RecordGUID" -Value $RecordGUID
             $InstalledSoftware | Add-Member -MemberType NoteProperty -Name "DeviceNameKey" -Value $env:COMPUTERNAME
             $InstalledSoftware | Add-Member -MemberType NoteProperty -Name "DisplayName" -Value $ISW.DisplayName
@@ -1448,6 +1505,7 @@ else {
             $RootCert | Add-Member -MemberType NoteProperty -Name "CertStore" -Value $CertStore
             $RootCert | Add-Member -MemberType NoteProperty -Name "DeviceDomainKey" -Value $DeviceDomainName
             $RootCert | Add-Member -MemberType NoteProperty -Name "DeviceDomainSIDKey" -Value $DeviceDomainSID
+            $RootCert | Add-Member -MemberType NoteProperty -Name "DeviceUID" -Value $CurrentGuid
             $RootCert | Add-Member -MemberType NoteProperty -Name "RecordGUID" -Value $RecordGUID
             $RootCert | Add-Member -MemberType NoteProperty -Name "DeviceNameKey" -Value $env:COMPUTERNAME
             $RootCert | Add-Member -MemberType NoteProperty -Name "GatherScriptVersion" -Value $GatherScriptVer
@@ -1522,6 +1580,7 @@ else {
             $ASRRuleStatus | Add-Member -MemberType NoteProperty -Name "DeviceNameKey" $DeviceName
             $ASRRuleStatus | Add-Member -MemberType NoteProperty -Name "DeviceDomainKey" $DeviceDomainName
             $ASRRuleStatus | Add-Member -MemberType NoteProperty -Name "DeviceDomainSIDKey" $DeviceDomainSID
+            $ASRRuleStatus | Add-Member -MemberType NoteProperty -Name "DeviceUID" -Value $CurrentGuid
             $ASRRuleStatus | Add-Member -MemberType NoteProperty -Name "GatherScriptVersion" -Value $GatherScriptVer 
             $ASRRuleStatus | Add-Member -MemberType NoteProperty -Name "RecordGUID" -Value $RecordGUID
 
@@ -1541,12 +1600,21 @@ If ($SendToXML) {
     $FinalOutputs | Export-Clixml -Path "$ScriptDir\MDEConfig.xml" -Force
 }
 
-If ($SendToAzureMonitor) {
+#Skip transmission if workspace info is not defined
+If ($WorkspaceID -eq "" -or $sharedKey -eq "") {
+    $SkipSend = $true
+    "Skipping Log Analytics Submission - WorkspaceID or ShareKey not defined - No records will be sent." | Add-LogEntry -LogName $LogFile
+}
+else {$SkipSend = $false}
+
+
+If ($SendToAzureMonitor -and $SkipSend -eq $false) {
 
     "Sending output to Log Analytics" | Add-LogEntry -LogName $LogFile
 
     $RecordSuccess = 0
     $RecordError = 0
+
     $FinalOutputs.Keys | Foreach-Object {
         $Key = $_
             
@@ -1598,3 +1666,4 @@ If ($SendToAzureMonitor) {
 "Script completed" | Add-LogEntry -LogName $LogFile
 
 #endregion Output script results
+
