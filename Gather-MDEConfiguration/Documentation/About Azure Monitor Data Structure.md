@@ -30,12 +30,15 @@ When correlating data across logs, keep the following in mind:
 
 - All data from a specific execution of the script on a specific machine will have a unique "RecordGUID".  This will be the same across all Logs, for that device, and that execution.
 
+ - All data from a specific machine will have a unique "DeviceUID", which is stored in the Registry at HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\GatherScripts\Gather-MDEConfiguration in a value named DeviceUID.  All output from the script on a specific device will contain the same GUID.
+   
 - All Logs have the following common fields:
 
   - **DeviceNameKey:** Name of the computer
   - **DeviceDomainKey:** Name of the Windows Domain the device is joined to
   - **DeviceDomainSIDKey:** Security Identifier of the Device on its domain
   - **RecordGUID:** GUID that is unique for each device per script execution.  Can be used to match records across Custom Logs
+  - **DeviceUID:** GUID that is unique for each device and persists across all script executions.  Can be used to match records across Custom Logs
   - **GatherScriptVersion:** Version of Gather-MDEConfiguration.ps1 that was run
   - **TimeGenerated:** Timestamp indicating when the data was ingested into Azure Monitor.
 
