@@ -1,4 +1,4 @@
-
+﻿
 
 ##############################################################
 #region Functions
@@ -684,8 +684,8 @@ $IncludedSections += "RootCerts" #Reports on the certificates in the Computers T
 
 
 $MDECAOutputFile = "$($ScriptDir)\MDEClientAnalyzerResult\SystemInfoLogs\MDEClientAnalyzer.xml" #File to read for the MDE Client Analyzer Results, if present
-$WorkspaceID = '' #Log Analytics Workspace ID
-$SharedKey = '' #Log Analytics Primary Key
+$WorkspaceID = '7602087e-0c9b-4fb3-8d44-a6e38b12e7aa' #Log Analytics Workspace ID
+$SharedKey = 'HkPQWyHDe4DBH6jMuv0saTdS7qqZpBqqo4nZuvNOOlOR+03f0kQ5ws7h24NCFfQZ2qtoGdaVhH+f7emMAW7sXg==' #Log Analytics Primary Key
 #endregion User Configured Variables
 
 #region Static Variables
@@ -1598,4 +1598,3 @@ If ($SendToAzureMonitor) {
 "Script completed" | Add-LogEntry -LogName $LogFile
 
 #endregion Output script results
-
