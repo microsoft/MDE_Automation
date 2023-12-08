@@ -815,6 +815,7 @@ else {
     $FinalOutputs.DeviceInfo.GatherScriptVersion = $GatherScriptVer   
     $FinalOutputs.DeviceInfo.AzureADJoined = $DSRegInfo.Device_State.AzureAdJoined         
     $FinalOutputs.DeviceInfo.DeviceDomainKey = $DeviceDomainName    
+    $FinalOutputs.DeviceInfo.DeviceUID = $CurrentGuid
     $FinalOutputs.DeviceInfo.DeviceDomainSIDKey = $DeviceDomainSID        
     $FinalOutputs.DeviceInfo.DeviceNameKey = $DeviceName      
     $FinalOutputs.DeviceInfo.DomainJoined  = $DomainJoined           
@@ -823,7 +824,7 @@ else {
     $FinalOutputs.DeviceInfo.OSVersion = $(Get-WMIObject -Class Win32_OperatingSystem).Version       
     $FinalOutputs.DeviceInfo.OSName =  $(Get-WMIObject -Class Win32_OperatingSystem).Caption         
     $FinalOutputs.DeviceInfo.WorkplaceJoined = $DSRegInfo.User_State.WorkplaceJoined     
-    $FinalOutputs.DeviceInfo.DeviceUID = $CurrentGuid
+    
 
 #endregion Get Device ID Info
 
@@ -847,6 +848,8 @@ else {
             $MDEResultSection = New-Object -TypeName PSObject 
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "DeviceNameKey" -Value $DeviceName
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "DeviceDomainKey" -Value $DeviceDomainName
+            $MDEResultSection | Add-Member -MemberType NoteProperty -Name "DeviceUID" -Value $CurrentGuid
+            $MDEResultSection | Add-Member -MemberType NoteProperty -Name "RecordGUID" -Value $RecordGUID
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "DeviceDomainSIDKey" -Value $DeviceDomainSID
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "GatherScriptVersion" -Value $GatherScriptVer 
          
@@ -871,6 +874,7 @@ else {
             $Event = $_
             $MDEResultSection = New-Object -TypeName PSObject 
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "DeviceNameKey" -Value $DeviceName
+            $MDEResultSection | Add-Member -MemberType NoteProperty -Name "DeviceUID" -Value $CurrentGuid
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "DeviceDomainKey" -Value $DeviceDomainName
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "DeviceDomainSIDKey" -Value $DeviceDomainSID
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "GatherScriptVersion" -Value $GatherScriptVer 
@@ -882,7 +886,7 @@ else {
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "Results" -Value $Event.checkresult
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "Guidance" -Value $Event.guidance
             $MDEResultSection | Add-Member -MemberType NoteProperty -Name "CAOutputDate" -Value $CAOutputDate
-            $MDEResultSection | Add-Member -MemberType NoteProperty -Name "DeviceUID" -Value $CurrentGuid
+            
 
             $FinalOutputs.CAResults += $MDEResultSection
 
@@ -1348,6 +1352,7 @@ else {
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DeviceDomainKey" -Value $DeviceDomainName
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DeviceDomainSIDKey" -Value $DeviceDomainSID
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DeviceNameKey" -Value $DeviceName
+            $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DeviceUID" -Value $CurrentGuid
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "GatherScriptVersion" -Value $GatherScriptVer
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DefinedExclusion" -Value $_
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "ExclusionType" -Value "Process"
@@ -1373,6 +1378,7 @@ else {
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DeviceDomainKey" -Value $DeviceDomainName
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DeviceDomainSIDKey" -Value $DeviceDomainSID
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DeviceNameKey" -Value $DeviceName
+            $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DeviceUID" -Value $CurrentGuid
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "GatherScriptVersion" -Value $GatherScriptVer
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "DefinedExclusion" -Value $_
             $AntivirusExclusions | Add-Member -MemberType NoteProperty -Name "ExclusionType" -Value "Path"
